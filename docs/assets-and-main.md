@@ -1,0 +1,64 @@
+---
+title: Assets и функция main
+---
+## Работа с Assets
+
+Мы помним, чтобы работать с файлами нам необходимо иметь папку с assets
+```shell
+architect
+├── assets
+│   └── icons-sprite
+│       ├── arrow-right.svg
+│       └── blue-posts.svg
+```
+Так же нужно чтобы вы указали assets в source-map в компоненте, который вам нужен
+
+```shell
+map: {
+'src/components': {
+icons: { template: 'i', assets: 'icons-sprite', test: '123' },
+},
+'src/components/inputs': {
+index: 'ix',
+button: { template: 'rc' },
+textarea: 'rc',
+input: 'rc',
+'input-select': 'rc',
+},
+}
+```
+Теперь в шаблоне в нашем примере `i:icons` в файле `_script_.js`
+нам доступны файлы из `'icons-sprite'`
+
+файл `templates/icons/_script_.js`
+
+```shell
+...
+const minimizeSVG = (svg) => svg;
+
+
+const main = (_, { assets, writeFile }) => {
+  assets.forEach(({ content, fileName }) => {
+    const result = minimizeSVG(content);
+    writeFile(result, { path: `svg/${fileName}` });
+  });
+};
+
+module.exports = {
+  main,
+  getIndexContent,
+};
+```
+*Доступ к assets будет у любой функции, которую вы опишите в `_script_.js`*
+
+Таким образом мы можем изменить наши файлы и сделать с ними что угодно, 
+главное что у нас к ним есть доступ с помощью замечательных assets
+
+## Функция main
+
+В файле _script_.js мы можем описать функции, которые сможем вызвать в файлах шаблона
+Но что, если нам нужна функция, которая вызовется сама и сделает для нас что-то без вызова
+её в шаблоне. Как раз для этого есть функция `main`.
+
+Помимо assets функция `main` так же может принимать методы, пока что нашей командой реализован
+только `writeFile`, но вскоре мы добавим и другие.
