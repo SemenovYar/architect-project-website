@@ -9,6 +9,7 @@ module.exports = {
         'flags',
         'cli-command',
         'assets-and-main',
+        'system-folder-arc',
       ],
     },
   ],

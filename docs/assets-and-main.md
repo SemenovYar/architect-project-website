@@ -14,18 +14,18 @@ architect
 Так же нужно чтобы вы указали assets в source-map в компоненте, который вам нужен
 
 ```shell
-map: {
-'src/components': {
-icons: { template: 'i', assets: 'icons-sprite', test: '123' },
-},
-'src/components/inputs': {
-index: 'ix',
-button: { template: 'rc' },
-textarea: 'rc',
-input: 'rc',
-'input-select': 'rc',
-},
-}
+const map = {
+  'src/components': {
+    icons: { template: 'i', assets: 'icons-sprite', test: '123' },
+  },
+  'src/components/inputs': {
+    index: 'ix',
+    button: { template: 'rc' },
+    textarea: 'rc',
+    input: 'rc',
+    'input-select': 'rc',
+  },
+};
 ```
 Теперь в шаблоне в нашем примере `i:icons` в файле `_script_.js`
 нам доступны файлы из `'icons-sprite'`
@@ -56,7 +56,7 @@ module.exports = {
 
 ## Функция main
 
-В файле _script_.js мы можем описать функции, которые сможем вызвать в файлах шаблона
+В файле `_script_.js` мы можем описать функции, которые сможем вызвать в файлах шаблона
 Но что, если нам нужна функция, которая вызовется сама и сделает для нас что-то без вызова
 её в шаблоне. Как раз для этого есть функция `main`.
 
