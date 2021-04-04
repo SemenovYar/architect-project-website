@@ -56,9 +56,42 @@ module.exports = {
 
 ## Функция main
 
-В файле `_script_.js` мы можем описать функции, которые сможем вызвать в файлах шаблона
+В файле `_script_.js` мы можем описать функции, которые сможем вызвать в файлах шаблона.
 Но что, если нам нужна функция, которая вызовется сама и сделает для нас что-то без вызова
 её в шаблоне. Как раз для этого есть функция `main`.
 
 Помимо assets функция `main` так же может принимать методы, пока что нашей командой реализован
 только `writeFile`, но вскоре мы добавим и другие.
+
+## Асинхронное выполнение функций в `_script_.js` и methods.js
+
+Если вам необходимо дождаться ответа в запросе
+или вы используете асинхронные операции, Architect это умеет.
+Работая с асинхронными функциями из `_script_.js` или methods.js,
+Architect сначала их дожидается,
+получает из них контент и только потом интерполирует шаблон.
+
+```shell
+// _script_.js
+
+const axios = require('axios');
+const fs = require('file-system');
+const appRoot = process.cwd();
+const { resolve } = require('path');
+
+const main = async () => {
+  const filePath = resolve(appRoot, 'output/ada_lovelace.jpg');
+
+  const { data } = await axios({
+    method: 'get',
+    url: 'http://bit.ly/2mTM3nY',
+    responseType: 'stream',
+  });
+
+  data.pipe(fs.createWriteStream(filePath));
+};
+
+module.exports = {
+  main,
+};
+```

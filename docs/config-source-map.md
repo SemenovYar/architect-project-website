@@ -211,6 +211,24 @@ module.exports = { map, defaultParams, aliases };
 На первый взгляд выглядит немного сложнее, но когда вы начнёте пользоваться, поймёте
 насколько это удобно.
 
+## Релативные пути для source-map-atom.js
+
+Иногда удобно переопределять пути из defaultParams, делая их относительными.
+```shell
+const defaultParams = {
+  component: {path: 'src/page'}
+}
+
+const map = {
+  stadiums: [['component', {rPath: '/test'}]], //Темплейт component создаст файл в src/page/test
+};
+
+module.exports = { map, defaultParams};
+```
+
+Ключевым словом здесь является `rPath`, ему вы можете передавать путь следующего 
+вида: `'/test'`, `'test'`, `'test/test1/'`, `/test/test1`.
+
 ## source-map-atom.js VS source-map-module.js  
 
 Ниже будут представлены два source-map, которые приведут одинаковому
